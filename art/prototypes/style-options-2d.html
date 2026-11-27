@@ -1,0 +1,315 @@
+<title>馬路求生記 風格提案</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@500;700;900&display=swap">
+<style>
+/* Layout: three proposal cards stacked, each = picture of the same game moment + how the style carries the rules. Single light look. */
+:root {
+  --bg: #eef0f2; --ink: #23272f; --soft: #5b6270; --card: #ffffff; --line: #dde1e6; --accent: #e8572e;
+  --f-head: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --f-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 22px; }
+h1 { font-family: var(--f-head); font-weight: 900; font-size: clamp(24px, 4vw, 34px); margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--soft); max-width: 68ch; }
+.card { background: var(--card); border-radius: 18px; border: 1px solid var(--line); padding: 20px; display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 820px) { .card { grid-template-columns: minmax(0, 1fr); } }
+.tag { display: inline-block; font-weight: 700; font-size: 13px; letter-spacing: .08em; color: var(--accent); }
+.card h2 { font-family: var(--f-head); font-weight: 900; font-size: 24px; margin: 2px 0 6px; }
+.card p { margin: 0 0 12px; }
+canvas { width: 100%; height: auto; display: block; border-radius: 12px; }
+dl { margin: 0; display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 8px 12px; font-size: 14px; }
+dt { font-weight: 700; color: var(--soft); }
+dd { margin: 0; }
+.cost { margin-top: 12px; font-size: 14px; color: var(--soft); border-top: 1px dashed var(--line); padding-top: 10px; }
+.note { font-size: 13px; color: var(--soft); margin: 0; }
+</style>
+
+<div class="wrap">
+  <div>
+    <h1>換風格：三種方向</h1>
+    <p class="lede">三張圖都是第 3 關的同一個瞬間：嬰兒車被推下馬路，左邊有車開過來。另外多擺了一個招牌和一個垃圾桶，方便比較「推得動」和「推不動」怎麼區分。判斷標準是遊戲最需要看懂的三件事：地面高低、能不能推，以及哪裡危險。</p>
+  </div>
+
+  <section class="card">
+    <canvas id="cvA" aria-label="等角積木模型風格預覽"></canvas>
+    <div>
+      <span class="tag">方向 A</span>
+      <h2>等角積木模型</h2>
+      <p>斜 45 度俯看的街景模型，每一格都是有高度的積木。像在桌上擺一座小台灣街角。</p>
+      <dl>
+        <dt>高低差</dt><dd>最強。人行道比馬路高一截，台階更高，建築最高；嬰兒車為什麼上不去，一眼就懂。</dd>
+        <dt>推不推得動</dt><dd>靠造型和顏色：灰色機車推不動，鮮豔的招牌、垃圾桶推得動。</dd>
+        <dt>危險預告</dt><dd>貼在地面上的菱形框，跟著透視走，遠處的格子會比較擠。</dd>
+      </dl>
+      <p class="cost">代價：斜視角下「往上」是往右上，方向鍵要重新對應；高的建築會擋住後面的格子，關卡要避開這種排法。工作量最大。</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <canvas id="cvB" aria-label="交通標誌扁平風格預覽"></canvas>
+    <div>
+      <span class="tag">方向 B</span>
+      <h2>交通標誌扁平風</h2>
+      <p>整個畫面借用台灣路面標線和交通標誌的語言：柏油、白色標線、紅線、圓形標誌牌。像一張會動的交通安全教材。</p>
+      <dl>
+        <dt>高低差</dt><dd>用斜紋加上「高 15cm」標示，清楚但比較抽象。</dd>
+        <dt>推不推得動</dt><dd>最強。推得動的是橘色方塊，四邊有小箭頭；推不動的是灰色斜紋。規則像號誌一樣固定。</dd>
+        <dt>危險預告</dt><dd>最強。紅色斜線警示區，跟施工封閉區同一套語言。</dd>
+      </dl>
+      <p class="cost">代價：可愛感最少，比較像說明圖。要靠角色和小動畫補回趣味。工作量最小。</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <canvas id="cvC" aria-label="剪紙貼紙風格預覽"></canvas>
+    <div>
+      <span class="tag">方向 C</span>
+      <h2>剪紙貼紙拼貼</h2>
+      <p>街景用一層層色紙剪貼出來，越高的東西影子越長。能推的東西是「貼紙」：白色外框、微微翹起，看起來就撕得起來。</p>
+      <dl>
+        <dt>高低差</dt><dd>靠紙張疊幾層、影子多長來表現：馬路一層、人行道兩層、台階三層。</dd>
+        <dt>推不推得動</dt><dd>推得動的是會翹起來的貼紙，推不動的是直接印在紙上的圖案。這個區分本身就是一種玩法提示。</dd>
+        <dt>危險預告</dt><dd>像用紅色蠟筆圈起來，有手作感，但沒有 B 那麼醒目。</dd>
+      </dl>
+      <p class="cost">代價：要畫出紙張質感和不規則的邊緣；危險框跟可愛畫面之間要調一下平衡。工作量中等。</p>
+    </div>
+  </section>
+  <p class="note">預覽圖是用程式直接畫的靜態畫面，只是用來比較方向。選定之後，再把整個遊戲改成那個風格。</p>
+</div>
+
+<script>
+const SCENE = /*__SCENE__*/;
+const W = SCENE.w, H = SCENE.h;
+const T = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? '#' : SCENE.tiles[y][x];
+function hash(x, y) { let h = (x * 374761393 + y * 668265263) ^ 0x5bf03635; h = (h ^ (h >> 13)) * 1274126177; return ((h ^ (h >> 16)) >>> 0) / 4294967295; }
+function shade(hex, amt) { const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255; const f = amt < 0 ? 0 : 255, p = Math.abs(amt);
+  r = Math.round((f - r) * p + r); g = Math.round((f - g) * p + g); b = Math.round((f - b) * p + b); return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1); }
+function setup(id, w, h) { const cv = document.getElementById(id); const d = 2; cv.width = w * d; cv.height = h * d; cv.style.aspectRatio = w + ' / ' + h; const c = cv.getContext('2d'); c.scale(d, d); return c; }
+const objAt = (x, y) => [...SCENE.fixed.map(o => ({ ...o, fixed: 1 })), ...SCENE.push, ...SCENE.cars.map(c => ({ ...c, k: 'car' }))].filter(o => o.x === x && o.y === y);
+const FONT = '"Noto Sans TC", "PingFang TC", sans-serif';
+
+/* ============ A: isometric diorama ============ */
+function drawA() {
+  const TW = 46, TH = 23, ZU = 24, PAD = 20;
+  // the row nearest the camera is cut down to a low hedge, like a cutaway model, so it never hides the road
+  const heightOf = (t, x, y) => (t === '#' && y === H - 1) ? .22 : t === '#' ? 1.5 + Math.floor(hash(x, y) * 3) * .35 : t === '^' ? .7 : (t === '.' || t === 'G' || t === 'P') ? .3 : 0;
+  const maxZ = 2.3;
+  const cw = (W + H) * TW / 2 + PAD * 2, ch = (W + H) * TH / 2 + maxZ * ZU + PAD * 2;
+  const c = setup('cvA', cw, ch);
+  const ox = H * TW / 2 + PAD, oy = PAD + maxZ * ZU;
+  const P = (x, y, z) => [ox + (x - y) * TW / 2, oy + (x + y) * TH / 2 - z * ZU];
+  const g = c.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#dff1f6'); g.addColorStop(1, '#c4e3ea'); c.fillStyle = g; c.fillRect(0, 0, cw, ch);
+  const poly = (pts, fill) => { c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath(); c.fillStyle = fill; c.fill(); };
+  function prism(x, y, w, d, z0, h, col, opts = {}) {
+    const z1 = z0 + h;
+    poly([P(x + w, y, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x + w, y, z0)], shade(col, -.16));
+    poly([P(x, y + d, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x, y + d, z0)], shade(col, -.3));
+    poly([P(x, y, z1), P(x + w, y, z1), P(x + w, y + d, z1), P(x, y + d, z1)], opts.top || col);
+  }
+  const bcols = ['#ffb39c', '#9fd0f5', '#ffd98a', '#c5b5f5', '#a6e0b8'];
+  const order = [];
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) order.push([x, y]);
+  order.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1]) || a[0] - b[0]);
+  for (const [x, y] of order) {
+    const t = T(x, y), h = heightOf(t, x, y);
+    let col = (t === '#' && y === H - 1) ? '#8fcf8a' : t === '#' ? bcols[Math.floor(hash(x, y) * bcols.length)] : t === '^' ? '#ffe4cc' : t === 'G' ? '#ffcf4d' : t === 'r' ? '#6d7a96' : '#f3c3a1';
+    if (t === 'r') { poly([P(x, y, 0), P(x + 1, y, 0), P(x + 1, y + 1, 0), P(x, y + 1, 0)], (x + y) % 2 ? '#6d7a96' : '#69768f'); }
+    else prism(x, y, 1, 1, 0, h, col);
+    if (t === '^') { // stair treads on the two sides
+      for (let k = 0; k < 3; k++) { const zz = .3 + (k + 1) * .13; poly([P(x + k * .1, y, zz), P(x + .1 + k * .1, y, zz), P(x + .1 + k * .1, y + 1, zz), P(x + k * .1, y + 1, zz)], shade('#ffe4cc', -.1 * (3 - k))); }
+    }
+    if (t === '#' && y < H - 1 && hash(x + 3, y) > .4) { const [wx, wy] = P(x + .5, y + 1, h * .6); c.fillStyle = 'rgba(255,255,255,.6)'; c.fillRect(wx - 12, wy - 5, 8, 7); c.fillRect(wx + 2, wy - 3, 8, 7); }
+    if (t === 'G') { const [gx, gy] = P(x + .5, y + .5, h); c.fillStyle = '#fff'; c.font = '700 13px ' + FONT; c.textAlign = 'center'; c.fillText('家', gx, gy + 5); }
+    const dg = SCENE.danger.find(d => d.x === x && d.y === y);
+    if (dg) {
+      const colz = { 1: 'rgba(240,70,60,', 2: 'rgba(255,140,50,', 3: 'rgba(250,200,60,' }[dg.k];
+      const ins = .1; const pts = [P(x + ins, y + ins, .01), P(x + 1 - ins, y + ins, .01), P(x + 1 - ins, y + 1 - ins, .01), P(x + ins, y + 1 - ins, .01)];
+      poly(pts, colz + (dg.k === 1 ? '.45)' : '.28)'));
+      c.strokeStyle = colz + '1)'; c.lineWidth = 2; c.setLineDash([5, 4]); c.beginPath(); pts.forEach(([a, b], i) => i ? c.lineTo(a, b) : c.moveTo(a, b)); c.closePath(); c.stroke(); c.setLineDash([]);
+    }
+    for (const o of objAt(x, y)) {
+      const z = h;
+      if (o.k === 'car') {
+        const col = o.id % 2 ? '#ff8fa3' : '#7cc6fe';
+        prism(x + .08, y + .2, .84, .6, z, .38, col); prism(x + (o.dir === 'right' ? .22 : .3), y + .26, .46, .48, z + .38, .26, '#e9f4ff');
+      } else if (o.k === 'scooter') {
+        prism(x + .38, y + .2, .26, .62, z, .3, '#a2a9b8'); prism(x + .4, y + .38, .22, .26, z + .3, .1, '#4a4f60');
+      } else if (o.k === 'sign') {
+        prism(x + .25, y + .45, .5, .1, z, .85, '#fffaf0', { top: '#e9524a' });
+        const [sx, sy] = P(x + .5, y + .55, z + .5); c.fillStyle = '#e9524a'; c.font = '700 9px ' + FONT; c.textAlign = 'center'; c.fillText('特價', sx, sy);
+      } else if (o.k === 'bin') {
+        prism(x + .28, y + .28, .44, .44, z, .6, '#3fae8f', { top: '#2c7a66' });
+      } else if (o.k === 'stroller') {
+        prism(x + .18, y + .28, .64, .44, z + .12, .34, '#ff8fbd');
+        const [hx, hy] = P(x + .3, y + .5, z + .46); c.beginPath(); c.arc(hx, hy, 11, Math.PI, 0); c.fillStyle = '#62aef0'; c.fill();
+        c.fillStyle = '#3b3f52'; [[.25, .72], [.75, .72]].forEach(([a, b]) => { const [wx, wy] = P(x + a, y + b, z + .06); c.beginPath(); c.arc(wx, wy, 3.5, 0, 7); c.fill(); });
+      }
+    }
+    if (SCENE.player.x === x && SCENE.player.y === y) {
+      prism(x + .36, y + .36, .28, .28, h, .5, '#4d8df6');
+      const [hx, hy] = P(x + .5, y + .5, h + .72); c.beginPath(); c.arc(hx, hy, 8, 0, 7); c.fillStyle = '#ffd9b8'; c.fill();
+      c.beginPath(); c.arc(hx, hy - 2, 8, Math.PI, 0); c.fillStyle = '#3b3048'; c.fill();
+    }
+  }
+}
+
+/* ============ B: road-sign flat ============ */
+function drawB() {
+  const CS = 44, cw = W * CS, ch = H * CS;
+  const c = setup('cvB', cw, ch);
+  const X = x => x * CS, Y = y => y * CS;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const t = T(x, y);
+    if (t === '#') { c.fillStyle = '#cfcac0'; c.fillRect(X(x), Y(y), CS, CS); c.strokeStyle = '#bab4a8'; c.lineWidth = 1; c.strokeRect(X(x) + .5, Y(y) + .5, CS - 1, CS - 1); continue; }
+    if (t === 'r') { c.fillStyle = '#32373f'; c.fillRect(X(x), Y(y), CS, CS); continue; }
+    c.fillStyle = '#eceae4'; c.fillRect(X(x), Y(y), CS, CS);
+    c.strokeStyle = '#dcd9d1'; c.lineWidth = 1; c.strokeRect(X(x) + .5, Y(y) + .5, CS - 1, CS - 1);
+    if (t === '^') {
+      c.save(); c.beginPath(); c.rect(X(x), Y(y), CS, CS); c.clip();
+      c.fillStyle = '#ffd23f'; c.fillRect(X(x), Y(y), CS, CS);
+      c.strokeStyle = '#23272f'; c.lineWidth = 5;
+      for (let k = -2; k < 4; k++) { c.beginPath(); c.moveTo(X(x) + 8, Y(y) + k * 16); c.lineTo(X(x) + 22, Y(y) + k * 16 + 10); c.lineTo(X(x) + 36, Y(y) + k * 16); c.stroke(); }
+      c.restore();
+    }
+    if (t === 'G') {
+      c.fillStyle = '#138a52'; c.beginPath(); c.roundRect(X(x) + 4, Y(y) + 4, CS - 8, CS - 8, 6); c.fill();
+      c.fillStyle = '#fff'; c.font = '900 17px ' + FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('家', X(x) + CS / 2, Y(y) + CS / 2 + 1);
+    }
+  }
+  // step tag
+  c.fillStyle = '#23272f'; c.beginPath(); c.roundRect(X(6) - 14, Y(2) + 12, CS + 28, 20, 4); c.fill();
+  c.fillStyle = '#ffd23f'; c.font = '700 12px ' + FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('高 15cm', X(6) + CS / 2, Y(2) + 22);
+  // road markings
+  c.strokeStyle = '#f4f4f0'; c.lineWidth = 3; c.setLineDash([18, 14]); c.beginPath(); c.moveTo(0, Y(5)); c.lineTo(cw, Y(5)); c.stroke(); c.setLineDash([]);
+  c.strokeStyle = '#e8402f'; c.lineWidth = 4; c.beginPath(); c.moveTo(0, Y(4) + 2); c.lineTo(cw, Y(4) + 2); c.stroke(); // 紅線 along the curb
+  c.strokeStyle = '#f4f4f0'; c.lineWidth = 2; c.beginPath(); c.moveTo(0, Y(6) - 3); c.lineTo(cw, Y(6) - 3); c.stroke();
+  // danger: hazard hatching
+  for (const d of SCENE.danger) {
+    c.save(); c.beginPath(); c.rect(X(d.x) + 2, Y(d.y) + 2, CS - 4, CS - 4); c.clip();
+    c.fillStyle = d.k === 1 ? 'rgba(232,64,47,.35)' : 'rgba(232,64,47,.14)'; c.fillRect(X(d.x), Y(d.y), CS, CS);
+    c.strokeStyle = d.k === 1 ? '#e8402f' : 'rgba(232,64,47,.55)'; c.lineWidth = d.k === 1 ? 4 : 2;
+    for (let k = -CS; k < CS * 2; k += 11) { c.beginPath(); c.moveTo(X(d.x) + k, Y(d.y)); c.lineTo(X(d.x) + k - CS, Y(d.y) + CS); c.stroke(); }
+    c.restore();
+    c.fillStyle = '#fff'; c.beginPath(); c.arc(X(d.x) + 11, Y(d.y) + 11, 8, 0, 7); c.fill();
+    c.fillStyle = '#e8402f'; c.font = '900 11px ' + FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(d.k, X(d.x) + 11, Y(d.y) + 11.5);
+  }
+  const notch = (cx, cy, r, col) => { c.fillStyle = col; for (let a = 0; a < 4; a++) { c.save(); c.translate(cx, cy); c.rotate(a * Math.PI / 2); c.beginPath(); c.moveTo(r + 7, 0); c.lineTo(r + 1, -5); c.lineTo(r + 1, 5); c.fill(); c.restore(); } };
+  for (const o of SCENE.fixed) {
+    const x = X(o.x) + 7, y = Y(o.y) + 7, s = CS - 14;
+    c.save(); c.beginPath(); c.roundRect(x, y, s, s, 5); c.clip(); c.fillStyle = '#9aa0aa'; c.fillRect(x, y, s, s);
+    c.strokeStyle = '#7f8590'; c.lineWidth = 3; for (let k = -s; k < s * 2; k += 8) { c.beginPath(); c.moveTo(x + k, y); c.lineTo(x + k - s, y + s); c.stroke(); } c.restore();
+    c.fillStyle = '#fff'; c.beginPath(); c.roundRect(x + s / 2 - 5, y + 6, 10, s - 12, 5); c.fill();
+  }
+  for (const o of SCENE.push) {
+    const cx = X(o.x) + CS / 2, cy = Y(o.y) + CS / 2;
+    if (o.k === 'stroller') {
+      c.fillStyle = '#1f6fd1'; c.beginPath(); c.arc(cx, cy, 15, 0, 7); c.fill(); c.strokeStyle = '#fff'; c.lineWidth = 2.5; c.beginPath(); c.arc(cx, cy, 12.5, 0, 7); c.stroke();
+      c.fillStyle = '#fff'; c.beginPath(); c.moveTo(cx - 8, cy + 1); c.arc(cx - 1, cy + 1, 7, Math.PI, 0); c.lineTo(cx - 8, cy + 1); c.fill();
+      c.fillRect(cx - 8, cy + 1, 15, 3); c.beginPath(); c.arc(cx - 5, cy + 7, 2, 0, 7); c.arc(cx + 4, cy + 7, 2, 0, 7); c.fill();
+      notch(cx, cy, 15, '#1f6fd1');
+    } else {
+      c.fillStyle = '#ff8a00'; c.beginPath(); c.roundRect(cx - 13, cy - 13, 26, 26, 6); c.fill();
+      c.fillStyle = '#fff'; c.font = '900 13px ' + FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(o.k === 'sign' ? '牌' : '桶', cx, cy + 1);
+      notch(cx, cy, 13, '#ff8a00');
+    }
+  }
+  for (const o of SCENE.cars) {
+    const cx = X(o.x) + CS / 2, cy = Y(o.y) + CS / 2;
+    c.fillStyle = '#fff'; c.strokeStyle = '#23272f'; c.lineWidth = 2.5; c.beginPath(); c.roundRect(cx - 18, cy - 11, 36, 22, 6); c.fill(); c.stroke();
+    c.fillStyle = '#23272f'; const s = o.dir === 'right' ? 1 : -1; c.beginPath(); c.moveTo(cx + 9 * s, cy); c.lineTo(cx - 3 * s, cy - 6); c.lineTo(cx - 3 * s, cy + 6); c.fill();
+  }
+  const p = SCENE.player, cx = X(p.x) + CS / 2, cy = Y(p.y) + CS / 2;
+  c.fillStyle = '#1f6fd1'; c.beginPath(); c.arc(cx, cy, 16, 0, 7); c.fill(); c.strokeStyle = '#fff'; c.lineWidth = 2.5; c.beginPath(); c.arc(cx, cy, 13, 0, 7); c.stroke();
+  c.fillStyle = '#fff'; c.beginPath(); c.arc(cx, cy - 7, 3, 0, 7); c.fill(); c.strokeStyle = '#fff'; c.lineWidth = 3; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(cx, cy - 3); c.lineTo(cx, cy + 4); c.moveTo(cx, cy + 4); c.lineTo(cx - 4, cy + 10); c.moveTo(cx, cy + 4); c.lineTo(cx + 4, cy + 10); c.moveTo(cx - 5, cy); c.lineTo(cx + 5, cy - 1); c.stroke();
+}
+
+/* ============ C: paper collage ============ */
+function drawC() {
+  const CS = 44, PAD = 10, cw = W * CS + PAD * 2, ch = H * CS + PAD * 2;
+  const c = setup('cvC', cw, ch);
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  c.fillStyle = '#d9c29d'; c.fillRect(0, 0, cw, ch);
+  for (let i = 0; i < 2600; i++) { c.fillStyle = `rgba(${rnd() > .5 ? '255,255,255' : '90,60,30'},${rnd() * .08})`; c.fillRect(rnd() * cw, rnd() * ch, 2, 2); }
+  const X = x => PAD + x * CS, Y = y => PAD + y * CS;
+  const wob = (x, y, w, h, j = 1.6) => { const pts = [[x, y], [x + w / 2, y], [x + w, y], [x + w, y + h / 2], [x + w, y + h], [x + w / 2, y + h], [x, y + h], [x, y + h / 2]];
+    c.beginPath(); pts.forEach(([a, b], i) => { const aa = a + (rnd() - .5) * j * 2, bb = b + (rnd() - .5) * j * 2; i ? c.lineTo(aa, bb) : c.moveTo(aa, bb); }); c.closePath(); };
+  const layer = (fn, depth) => { c.save(); c.shadowColor = 'rgba(70,45,20,.38)'; c.shadowOffsetX = depth * .6; c.shadowOffsetY = depth; c.shadowBlur = depth * .8; fn(); c.restore(); };
+  // road paper
+  layer(() => { wob(X(0) - 4, Y(4), W * CS + 8, CS * 2, 2); c.fillStyle = '#4a4e5c'; c.fill(); }, 2);
+  c.strokeStyle = 'rgba(255,255,255,.75)'; c.lineWidth = 3; c.setLineDash([16, 12]); c.beginPath(); c.moveTo(X(0), Y(5)); c.lineTo(X(W), Y(5) + 1); c.stroke(); c.setLineDash([]);
+  // sidewalk paper
+  layer(() => { wob(X(1) - 2, Y(1), (W - 1) * CS + 2, CS * 3, 2); c.fillStyle = '#f5ecd9'; c.fill(); wob(X(0), Y(2), CS + 4, CS, 1.5); c.fill(); }, 4);
+  c.strokeStyle = 'rgba(160,120,80,.25)'; c.lineWidth = 1;
+  for (let y = 1; y < 4; y++) for (let x = 1; x < W; x++) { c.beginPath(); c.moveTo(X(x), Y(y) + 3); c.lineTo(X(x) + 1, Y(y + 1) - 3); c.stroke(); }
+  // step: a third layer
+  layer(() => { wob(X(6) + 3, Y(1) - 2, CS - 6, CS * 3 + 2, 1.5); c.fillStyle = '#fffaf0'; c.fill(); }, 8);
+  c.strokeStyle = 'rgba(150,100,60,.45)'; c.lineWidth = 1.5; for (let k = 0; k < 9; k++) { c.beginPath(); c.moveTo(X(6) + 8, Y(1) + 8 + k * 15); c.lineTo(X(6) + CS - 8, Y(1) + 8 + k * 15 + 1); c.stroke(); }
+  // goal
+  layer(() => { wob(X(0) + 5, Y(2) + 5, CS - 10, CS - 10, 1.2); c.fillStyle = '#ffc94a'; c.fill(); }, 3);
+  c.fillStyle = '#7a4a10'; c.font = '20px Huninn, ' + FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('家', X(0) + CS / 2, Y(2) + CS / 2 + 1);
+  // buildings
+  const bcols = ['#f29f86', '#8fc3e8', '#f3cf6e', '#b9a6e8', '#93d1a8'];
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (T(x, y) === '#') {
+    const col = bcols[Math.floor(hash(x, y) * bcols.length)];
+    layer(() => { wob(X(x) + 1, Y(y) + 1, CS - 2, CS - 2, 1.5); c.fillStyle = col; c.fill(); }, 11);
+    if (hash(x + 5, y) > .4) { c.fillStyle = 'rgba(255,255,255,.55)'; wob(X(x) + 10, Y(y) + 12, 10, 10, 1); c.fill(); wob(X(x) + 25, Y(y) + 12, 10, 10, 1); c.fill(); }
+  }
+  // danger: red crayon loops
+  for (const d of SCENE.danger) {
+    c.strokeStyle = d.k === 1 ? 'rgba(225,45,35,.95)' : d.k === 2 ? 'rgba(235,110,40,.75)' : 'rgba(225,170,40,.7)'; c.lineWidth = d.k === 1 ? 3.2 : 2.2; c.lineCap = 'round';
+    for (let pass = 0; pass < 2; pass++) { c.beginPath(); for (let a = 0; a <= Math.PI * 2.1; a += .3) { const r = 17 + (rnd() - .5) * 3; const px = X(d.x) + CS / 2 + Math.cos(a) * r, py = Y(d.y) + CS / 2 + Math.sin(a) * r * .9; a ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke(); }
+    c.fillStyle = c.strokeStyle; c.font = '16px Huninn, ' + FONT; c.fillText(d.k, X(d.x) + 8, Y(d.y) + 8);
+  }
+  // fixed scooters: printed flat on the paper, no shadow
+  for (const o of SCENE.fixed) {
+    const cx = X(o.x) + CS / 2, cy = Y(o.y) + CS / 2;
+    c.fillStyle = 'rgba(95,100,120,.55)'; c.beginPath(); c.roundRect(cx - 8, cy - 16, 16, 32, 8); c.fill();
+    c.fillStyle = 'rgba(60,60,80,.55)'; c.fillRect(cx - 11, cy - 15, 22, 3); c.beginPath(); c.roundRect(cx - 5, cy - 4, 10, 12, 5); c.fill();
+  }
+  // cars: cut-outs
+  for (const o of SCENE.cars) {
+    const cx = X(o.x) + CS / 2, cy = Y(o.y) + CS / 2, col = o.id % 2 ? '#ff8fa3' : '#7cc6fe';
+    layer(() => { wob(cx - 19, cy - 12, 38, 24, 1.2); c.fillStyle = col; c.fill(); }, 5);
+    c.fillStyle = 'rgba(255,255,255,.8)'; const s = o.dir === 'right' ? 1 : -1; wob(cx + 3 * s - (s < 0 ? 9 : 0), cy - 8, 9, 16, .8); c.fill();
+  }
+  // pushables: stickers with white border and a lifted corner
+  const sticker = (cx, cy, w, h, col, label, rot) => {
+    c.save(); c.translate(cx, cy); c.rotate(rot);
+    layer(() => { c.beginPath(); c.roundRect(-w / 2 - 4, -h / 2 - 4, w + 8, h + 8, 8); c.fillStyle = '#fff'; c.fill(); }, 5);
+    c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, 5); c.fillStyle = col; c.fill();
+    c.fillStyle = '#fff'; c.font = '14px Huninn, ' + FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(label, 0, 1);
+    c.beginPath(); c.moveTo(w / 2 + 4, h / 2 - 8); c.lineTo(w / 2 + 4, h / 2 + 4); c.lineTo(w / 2 - 8, h / 2 + 4); c.closePath(); c.fillStyle = '#e9e2d2'; c.fill();
+    c.restore();
+  };
+  for (const o of SCENE.push) {
+    const cx = X(o.x) + CS / 2, cy = Y(o.y) + CS / 2;
+    if (o.k === 'stroller') {
+      c.save(); c.translate(cx, cy); c.rotate(-.06);
+      layer(() => { c.beginPath(); c.roundRect(-20, -15, 40, 30, 12); c.fillStyle = '#fff'; c.fill(); }, 6);
+      c.beginPath(); c.roundRect(-16, -4, 32, 13, 6); c.fillStyle = '#ff8fbd'; c.fill();
+      c.beginPath(); c.moveTo(-16, -2); c.arc(-4, -2, 12, Math.PI, Math.PI * 1.85); c.closePath(); c.fillStyle = '#62aef0'; c.fill();
+      c.fillStyle = '#3b3f52'; c.beginPath(); c.arc(-9, 11, 3.5, 0, 7); c.arc(9, 11, 3.5, 0, 7); c.fill();
+      c.restore();
+    } else sticker(cx, cy, 26, 26, o.k === 'sign' ? '#e9524a' : '#3fae8f', o.k === 'sign' ? '特價' : '桶', o.k === 'sign' ? .08 : -.1);
+  }
+  // player: paper doll
+  const p = SCENE.player, px = X(p.x) + CS / 2, py = Y(p.y) + CS / 2;
+  layer(() => { c.beginPath(); c.arc(px, py - 8, 11, 0, 7); c.roundRect(px - 11, py - 2, 22, 20, 9); c.fillStyle = '#fff'; c.fill(); }, 6);
+  c.beginPath(); c.roundRect(px - 8, py, 16, 15, 7); c.fillStyle = '#4d8df6'; c.fill();
+  c.beginPath(); c.arc(px, py - 8, 8, 0, 7); c.fillStyle = '#ffd9b8'; c.fill();
+  c.beginPath(); c.arc(px, py - 10, 8, Math.PI, 0); c.fillStyle = '#3b3048'; c.fill();
+}
+
+function drawAll() { drawA(); drawB(); drawC(); }
+drawAll();
+document.fonts?.ready?.then(drawAll);
+</script>

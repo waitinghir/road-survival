@@ -1,0 +1,423 @@
+<title>馬路求生記 視覺樣張</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+/* Layout: one full-bleed game screen (3D diorama + HUD), then a short note. Deliberately single, bright look. */
+:root {
+  --sky-top: #8fd8ff; --sky-bot: #ffe9c7;
+  --ink: #3a2a4d; --cream: #fff8ec;
+  --tomato: #ff6b4a; --tomato-deep: #d8452a;
+  --sun: #ffc93c; --sun-deep: #e29a12;
+  --teal: #29c4a9; --teal-deep: #179281;
+  --grape: #7b5cff; --grape-deep: #5136d6;
+  --f-cute: "Huninn", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --f-num: "Fredoka", "Huninn", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: #2b2140; color: var(--ink); font-family: var(--f-cute); margin: 0; }
+.screen { position: relative; width: 100%; height: min(78vh, 760px); min-height: 460px; overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 10%, var(--sky-top) 0%, #bfe8ff 45%, var(--sky-bot) 100%); }
+.screen canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(130% 100% at 50% 45%, transparent 60%, rgba(60,30,80,.28) 100%); }
+
+/* HUD */
+.hud { position: absolute; inset: 0; pointer-events: none;
+  padding: max(14px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 18px max(16px, env(safe-area-inset-left, 0px));
+  display: flex; flex-direction: column; justify-content: space-between; }
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.level { display: flex; align-items: center; }
+.medal { width: 66px; height: 66px; border-radius: 50%; display: grid; place-items: center; position: relative; z-index: 1;
+  background: radial-gradient(circle at 35% 28%, #fff3b0 0 18%, var(--sun) 45%, var(--sun-deep) 100%);
+  box-shadow: 0 5px 0 #b8760a, 0 10px 18px rgba(80,40,0,.35), inset 0 -6px 10px rgba(180,100,0,.35);
+  font-family: var(--f-num); font-weight: 700; font-size: 34px; color: #fff; text-shadow: 0 3px 0 #c27b08; }
+.ribbon { margin-left: -18px; padding: 8px 18px 10px 28px; border-radius: 0 16px 16px 0; color: #fff; font-size: 19px; letter-spacing: .04em;
+  background: linear-gradient(180deg, #ff8a6a, var(--tomato) 55%, var(--tomato-deep)); box-shadow: 0 4px 0 #a8321b, 0 8px 16px rgba(120,30,10,.3);
+  text-shadow: 0 2px 0 rgba(150,40,20,.6); white-space: nowrap; }
+.ribbon small { display: block; font-size: 12px; opacity: .9; letter-spacing: .08em; }
+.stats { display: flex; gap: 10px; align-items: center; }
+.pill { white-space: nowrap; display: flex; align-items: center; gap: 8px; padding: 6px 14px 7px 8px; border-radius: 999px; background: rgba(255,255,255,.92);
+  box-shadow: 0 4px 0 rgba(90,60,120,.25), 0 8px 16px rgba(60,30,90,.18); font-family: var(--f-num); font-weight: 700; font-size: 20px; color: var(--ink);
+  font-variant-numeric: tabular-nums; }
+.pill .ico { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 15px;
+  background: radial-gradient(circle at 35% 30%, #a996ff, var(--grape) 60%, var(--grape-deep)); box-shadow: inset 0 -3px 0 rgba(40,20,120,.35); }
+.pill .of { font-size: 14px; opacity: .55; font-weight: 600; }
+.stars { display: flex; gap: 2px; }
+.star { width: 22px; height: 22px; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  background: linear-gradient(180deg, #fff2a8, var(--sun) 50%, var(--sun-deep)); }
+.star.off { background: rgba(90,60,120,.18); }
+.round { pointer-events: auto; width: 48px; height: 48px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 28%, #fff 0 15%, #eef3ff 50%, #c9d3f0); box-shadow: 0 4px 0 #9aa6cc, 0 8px 14px rgba(40,30,90,.25); }
+.round svg { width: 22px; height: 22px; }
+
+.bubble { position: absolute; transform: translate(-50%, -100%); padding: 8px 14px 9px; border-radius: 16px; background: #fff; color: var(--tomato-deep);
+  font-size: 18px; white-space: nowrap; box-shadow: 0 4px 0 rgba(200,70,40,.25), 0 10px 20px rgba(60,20,40,.2); animation: pop 2.4s ease-in-out infinite; }
+.bubble::after { content: ""; position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); border: 10px solid transparent; border-top-color: #fff; border-bottom: 0; }
+@keyframes pop { 0%, 100% { transform: translate(-50%, -100%) scale(1); } 50% { transform: translate(-50%, -106%) scale(1.04); } }
+
+.bottom { display: flex; justify-content: center; align-items: flex-end; gap: 14px; }
+.btn { pointer-events: auto; border: 0; cursor: pointer; font-family: var(--f-cute); color: #fff; font-size: 20px; letter-spacing: .06em;
+  padding: 12px 26px 14px; border-radius: 22px; text-shadow: 0 2px 0 rgba(0,0,0,.18); position: relative; transition: transform .08s; }
+.btn::before { content: ""; position: absolute; left: 10px; right: 10px; top: 5px; height: 38%; border-radius: 14px; background: linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,0)); }
+.btn:active { transform: translateY(4px); }
+.btn.wait { font-size: 22px; padding: 14px 34px 16px; background: linear-gradient(180deg, #ffe07a, var(--sun) 55%, var(--sun-deep)); box-shadow: 0 6px 0 #b8760a, 0 12px 20px rgba(120,70,0,.35); color: #6b3d00; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+.btn.undo { background: linear-gradient(180deg, #5fe3c8, var(--teal) 55%, var(--teal-deep)); box-shadow: 0 6px 0 #0f6b5f, 0 12px 20px rgba(0,80,70,.3); }
+.btn.reset { background: linear-gradient(180deg, #a996ff, var(--grape) 55%, var(--grape-deep)); box-shadow: 0 6px 0 #3a22a8, 0 12px 20px rgba(40,20,120,.3); }
+.btn:focus-visible, .round:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink); font-size: 18px; }
+
+.note { max-width: 860px; margin: 0 auto; padding-block: 26px 40px; color: #efe6ff; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.note h2 { font-size: 20px; margin: 0 0 8px; color: #fff; font-weight: 400; }
+.note ul { margin: 0; padding-left: 1.2em; }
+.note li { margin-bottom: 6px; }
+@media (max-width: 640px) {
+  .medal { width: 52px; height: 52px; font-size: 26px; } .ribbon { font-size: 16px; } .pill { font-size: 16px; } .star { width: 16px; height: 16px; }
+  .btn { font-size: 16px; padding: 10px 16px 12px; } .btn.wait { font-size: 18px; padding: 12px 20px 14px; } .stats .round { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .bubble { animation: none; } }
+</style>
+
+<div class="screen" id="screen">
+  <div class="loading" id="loading">街景搭建中…</div>
+  <div class="vignette"></div>
+  <div class="hud">
+    <div class="top">
+      <div class="level"><div class="medal">3</div><div class="ribbon"><small>第 3 關</small>推嬰兒車回家</div></div>
+      <div class="stats">
+        <div class="pill"><span class="ico">步</span>18<span class="of">/ 30</span></div>
+        <div class="pill" aria-label="目前三顆星"><div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span></div></div>
+        <button class="round" id="pause" aria-label="暫停"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="2" fill="#5b4b8a"/><rect x="14" y="5" width="4" height="14" rx="2" fill="#5b4b8a"/></svg></button>
+      </div>
+    </div>
+    <div class="bottom">
+      <button class="btn undo" id="b-undo">↶ 復原</button>
+      <button class="btn wait" id="b-wait">等一下</button>
+      <button class="btn reset" id="b-reset">⟲ 重來</button>
+    </div>
+  </div>
+  <div class="bubble" id="bubble" hidden>車來了，快推！</div>
+</div>
+
+<div class="note">
+  <h2>這是視覺樣張，還不能玩</h2>
+  <ul>
+    <li>畫的是第 3 關的同一個瞬間：嬰兒車剛被推下馬路，左邊有車開過來。</li>
+    <li>畫面會動，但只是待機動畫（人物呼吸、車子怠速、危險格閃爍），按鈕還沒有接上遊戲規則。</li>
+    <li>推得動的東西頭上有白色小箭頭在轉，地上有光圈；違停機車沒有。紅、橘、黃格是一、二、三步後車子會開到的地方。</li>
+    <li>街屋上的鐵窗、冷氣、頂樓水塔、騎樓磁磚和路邊紅線，都是為了讓人一看就知道這是台灣街頭。</li>
+  </ul>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const SCENE = /*__SCENE__*/;
+const W = SCENE.w, H = SCENE.h;
+const T = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? '#' : SCENE.tiles[y][x];
+function hash(x, y) { let h = (x * 374761393 + y * 668265263) ^ 0x5bf03635; h = (h ^ (h >> 13)) * 1274126177; return ((h ^ (h >> 16)) >>> 0) / 4294967295; }
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+try { await Promise.race([document.fonts.load('64px Huninn'), new Promise(r => setTimeout(r, 2500))]); } catch (e) {}
+
+const screen = document.getElementById('screen');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.92;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+screen.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+
+// ---------- lights ----------
+scene.add(new THREE.HemisphereLight(0xcfeaff, 0xffc89a, 0.55));
+const sun = new THREE.DirectionalLight(0xfff0d6, 3.4);
+sun.position.set(-6, 12, 7);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 8, bottom: -8, near: 1, far: 40 });
+sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02; sun.shadow.radius = 4;
+scene.add(sun);
+
+// ---------- helpers ----------
+const X = x => x - W / 2 + 0.5, Z = y => y - H / 2 + 0.5;
+const mats = new Map();
+function toy(color, o = {}) {
+  const key = o.map ? null : color + JSON.stringify(o);
+  let made;
+  if (key === null || !mats.has(key)) mats.set(key, made = new THREE.MeshPhysicalMaterial({ color, roughness: o.r ?? 0.42, metalness: o.m ?? 0, clearcoat: o.cc ?? 0.55, clearcoatRoughness: 0.35,
+    emissive: o.e ?? 0x000000, emissiveIntensity: o.ei ?? 1, envMapIntensity: o.env ?? 0.32, transparent: !!o.t, opacity: o.t ?? 1, map: o.map ?? null, alphaTest: o.at ?? 0, side: o.side ?? THREE.FrontSide }));
+  return key === null ? made : mats.get(key);
+}
+const rbox = (w, h, d, r = 0.06, seg = 4) => new RoundedBoxGeometry(w, h, d, seg, Math.min(r, w / 2 - 1e-3, h / 2 - 1e-3, d / 2 - 1e-3));
+function mesh(geo, mat, x = 0, y = 0, z = 0, parent = scene) { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; parent.add(m); return m; }
+function textTex(text, { w = 256, h = 128, bg = '#fff', fg = '#e33', font = 'Huninn', size = 80, vertical = false, radius = 18 } = {}) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d');
+  if (bg) { g.fillStyle = bg; g.beginPath(); g.roundRect(0, 0, w, h, radius); g.fill(); }
+  g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = `${size}px ${font}, "PingFang TC", sans-serif`;
+  if (vertical) [...text].forEach((ch, i, a) => g.fillText(ch, w / 2, h / 2 + (i - (a.length - 1) / 2) * size * 1.05));
+  else g.fillText(text, w / 2, h / 2 + size * 0.05);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+const anims = [];
+
+// ---------- the board ----------
+const board = mesh(rbox(W + 0.7, 0.9, H + 0.5, 0.22), toy('#f3dcc0', { cc: 0.2, r: 0.7 }), 0, -0.48, 0.1);
+mesh(rbox(W + 0.5, 0.3, H + 0.3, 0.12), toy('#c88f62', { cc: 0.1, r: 0.8 }), 0, -0.95, 0.1); // soil layer under the board edge
+
+// road
+const roadMat = toy('#4f5874', { cc: 0.25, r: 0.65 });
+mesh(new THREE.BoxGeometry(W, 0.06, 2), roadMat, 0, -0.03, (Z(4) + Z(5)) / 2);
+for (let x = 0; x < W; x++) mesh(new THREE.BoxGeometry(0.42, 0.012, 0.06), toy('#fbfbf6', { cc: 0 }), X(x), 0.006, (Z(4) + Z(5)) / 2);
+mesh(new THREE.BoxGeometry(W, 0.012, 0.05), toy('#fbfbf6', { cc: 0 }), 0, 0.006, Z(5) + 0.44);
+
+// sidewalk: tiles (騎樓磁磚) on a raised slab, with a red-painted curb (紅線)
+const SW_H = 0.22;
+mesh(new THREE.BoxGeometry(W - 0.02, SW_H, 3), toy('#e9b48c', { cc: 0.1, r: 0.8 }), 0, SW_H / 2 - 0.02, Z(2));
+const curb = mesh(rbox(W, SW_H + 0.02, 0.12, 0.03), toy('#ff4d3d', { cc: 0.6 }), 0, SW_H / 2 - 0.01, Z(3) + 0.47);
+for (let i = 0; i < W * 2; i += 2) mesh(new THREE.BoxGeometry(0.5, SW_H + 0.025, 0.125), toy('#fff5ee', { cc: 0.6 }), -W / 2 + 0.25 + i * 0.5 + 0.5, SW_H / 2 - 0.01, Z(3) + 0.47);
+const tileGeo = rbox(0.46, 0.06, 0.46, 0.04, 2);
+const tilesA = [], tilesB = [];
+for (let y = 1; y <= 3; y++) for (let x = 0; x < W; x++) {
+  const t = T(x, y); if (t === '#' || t === '^') continue;
+  for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) ((i + j + x + y) % 2 ? tilesA : tilesB).push([X(x) - 0.245 + i * 0.49, Z(y) - 0.245 + j * 0.49]);
+}
+for (const [list, col] of [[tilesA, '#ffd2b0'], [tilesB, '#ffc196']]) {
+  const im = new THREE.InstancedMesh(tileGeo, toy(col, { cc: 0.35, r: 0.5 }), list.length);
+  const m4 = new THREE.Matrix4(); list.forEach(([x, z], i) => { m4.makeTranslation(x, SW_H + 0.01, z); im.setMatrixAt(i, m4); });
+  im.receiveShadow = true; scene.add(im);
+}
+
+// the step (台階): a raised platform with three treads on each side
+for (let y = 1; y <= 3; y++) {
+  const x = X(6), z = Z(y);
+  const riser = toy('#d98f62', { cc: 0.2 }), tread = toy('#ffe3cc', { cc: 0.4 });
+  for (let k = 0; k < 3; k++) {
+    const hgt = 0.11 * (k + 1), off = 0.42 - k * 0.1;
+    for (const s of [-1, 1]) { mesh(new THREE.BoxGeometry(0.1, hgt, 0.98), riser, x + s * off, SW_H + hgt / 2, z); mesh(new THREE.BoxGeometry(0.1, 0.02, 0.98), tread, x + s * off, SW_H + hgt + 0.01, z); }
+  }
+  mesh(rbox(0.44, 0.38, 0.98, 0.03), toy('#ffe8d4', { cc: 0.45 }), x, SW_H + 0.19, z);
+}
+// a little warning plate on the step
+const stepSign = mesh(rbox(0.5, 0.26, 0.04, 0.05), toy('#ffffff', { map: textTex('台階', { w: 256, h: 128, bg: '#ffb020', fg: '#5a2b00', size: 76 }) }), X(6), SW_H + 0.62, Z(3) + 0.3);
+anims.push(t => { stepSign.position.y = SW_H + 0.62 + Math.sin(t * 2) * 0.03; });
+
+// ---------- buildings (台灣街屋) ----------
+const bodyCols = ['#ff8f7a', '#ffcf5c', '#7cc8ff', '#b39cff', '#73dcb2', '#ff9ec8'];
+const shopNames = ['早餐', '藥局', '麵店', '茶飲', '便當', '冰品', '書店', '五金'];
+const signCols = [['#ff3b3b', '#fff'], ['#ffd21f', '#c4161c'], ['#1e6fe0', '#fff'], ['#16a34a', '#fff'], ['#ffffff', '#e11d48']];
+const cageTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'); g.strokeStyle = '#fff'; g.lineWidth = 5;
+  for (let i = 4; i < 64; i += 14) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 64); g.stroke(); } g.lineWidth = 4; g.strokeRect(2, 2, 60, 60); g.beginPath(); g.moveTo(0, 32); g.lineTo(64, 32); g.stroke();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+const glass = toy('#9fd6ff', { r: 0.08, cc: 1, m: 0.1 });
+let shopIdx = 0;
+function shophouse(x, y, floors, opts = {}) {
+  const g = new THREE.Group(); g.position.set(X(x), 0, Z(y)); scene.add(g);
+  const col = bodyCols[Math.floor(hash(x, y) * bodyCols.length)];
+  const FH = 0.78, hgt = 0.3 + floors * FH;
+  mesh(rbox(0.98, hgt, 0.98, 0.07), toy(col, { cc: 0.45, r: 0.5 }), 0, hgt / 2, 0, g);
+  const front = 0.5;
+  // ground floor: lit shop opening + horizontal sign
+  if (opts.shop) {
+    mesh(rbox(0.8, 0.5, 0.06, 0.04), toy('#5a3a2a', { e: 0xffb060, ei: 0.55 }), 0, 0.27, front - 0.02, g);
+    const [bg, fg] = signCols[shopIdx % signCols.length];
+    const name = shopNames[shopIdx++ % shopNames.length];
+    mesh(rbox(0.92, 0.22, 0.07, 0.05), toy('#ffffff', { map: textTex(name, { w: 256, h: 64, bg, fg, size: 48, radius: 10 }), cc: 0.8 }), 0, 0.66, front + 0.03, g);
+    // awning
+    const aw = mesh(rbox(0.94, 0.05, 0.26, 0.02), toy(['#ff5a5a', '#2bb3a0', '#ffb020'][x % 3], { cc: 0.6 }), 0, 0.5, front + 0.12, g); aw.rotation.x = 0.25;
+  }
+  for (let f = 0; f < floors; f++) {
+    const yy = 0.3 + f * FH + (opts.shop ? FH * 0.5 + 0.18 : FH * 0.5);
+    if (yy > hgt - 0.2) break;
+    mesh(new THREE.BoxGeometry(1.0, 0.035, 1.0), toy('#ffffff', { cc: 0.3, t: 0.55 }), 0, 0.3 + f * FH + (opts.shop ? 0.5 : 0), 0, g); // floor line
+    mesh(rbox(0.5, 0.36, 0.04, 0.02), glass, -0.08, yy, front + 0.005, g);
+    if (hash(x * 5 + f, y) > 0.5) { const cage = mesh(new THREE.BoxGeometry(0.58, 0.42, 0.1), new THREE.MeshStandardMaterial({ map: cageTex, transparent: true, alphaTest: 0.4, color: '#f4f4f4', roughness: 0.3, metalness: 0.4, side: THREE.DoubleSide }), -0.08, yy, front + 0.05, g);
+    cage.castShadow = true; } else mesh(new THREE.BoxGeometry(0.62, 0.05, 0.12), toy('#ffffff', { cc: 0.6 }), -0.08, yy - 0.2, front + 0.06, g);
+    if (hash(x + f, y + 9) > 0.35) { // air conditioner
+      mesh(rbox(0.24, 0.18, 0.14, 0.03), toy('#f7f7f2', { cc: 0.5 }), 0.32, yy - 0.12, front + 0.08, g);
+      mesh(new THREE.BoxGeometry(0.16, 0.1, 0.01), toy('#9aa0aa', { cc: 0 }), 0.32, yy - 0.12, front + 0.152, g);
+    }
+  }
+  // rooftop: water tank (頂樓水塔) or a tin-roof add-on (鐵皮加蓋)
+  const r = hash(y + 3, x + 7);
+  if (r > 0.55) {
+    mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.32, 20), toy(r > 0.8 ? '#4aa3ff' : '#d8dde6', { m: r > 0.8 ? 0 : 0.6, r: 0.3 }), 0.18, hgt + 0.3, -0.1, g);
+    mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.14, 8), toy('#8d96a6', { m: 0.6 }), 0.18, hgt + 0.07, -0.1, g);
+    mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.04, 20), toy('#8d96a6', { m: 0.6 }), 0.18, hgt + 0.48, -0.1, g);
+  } else if (r > 0.25) {
+    const tin = mesh(rbox(0.7, 0.32, 0.6, 0.03), toy('#9fb8c8', { m: 0.35, r: 0.4 }), -0.05, hgt + 0.16, -0.1, g);
+    const roof = mesh(new THREE.BoxGeometry(0.78, 0.04, 0.7), toy('#4a90d9', { m: 0.3 }), -0.05, hgt + 0.36, -0.1, g); roof.rotation.x = -0.12;
+  }
+  // vertical signboard sticking out over the arcade
+  if (opts.vsign) {
+    const [bg, fg] = signCols[(shopIdx + 2) % signCols.length];
+    const vs = mesh(rbox(0.08, 0.9, 0.3, 0.03), toy('#ffffff', { map: textTex(shopNames[(shopIdx + 3) % shopNames.length], { w: 128, h: 384, bg, fg, size: 96, vertical: true, radius: 12 }), cc: 0.8 }), 0.45, 0.9 + floors * 0.3, front + 0.12, g);
+  }
+  return g;
+}
+for (let x = 0; x < W; x++) shophouse(x, 0, 2 + Math.floor(hash(x, 0) * 3), { shop: true, vsign: x % 3 === 1 });
+for (const [x, y] of [[0, 1], [0, 3], [13, 1], [13, 2]]) shophouse(x, y, 1 + Math.floor(hash(x, y) * 2), { shop: false });
+
+// front row: planters with flowers and street lamps
+for (let x = 0; x < W; x++) {
+  mesh(rbox(0.96, 0.3, 0.7, 0.08), toy('#c9a27a', { cc: 0.2 }), X(x), 0.15, Z(6) + 0.05);
+  mesh(rbox(0.9, 0.24, 0.6, 0.12), toy('#5cc46a', { cc: 0.3, r: 0.6 }), X(x), 0.38, Z(6) + 0.05);
+  for (let k = 0; k < 3; k++) if (hash(x * 3 + k, 6) > 0.45)
+    mesh(new THREE.SphereGeometry(0.06, 12, 10), toy(['#ff6fae', '#ffd34d', '#ffffff'][k], { cc: 0.6 }), X(x) - 0.3 + k * 0.3, 0.52, Z(6) + (hash(x, k) - 0.5) * 0.4);
+}
+for (const x of [3, 10]) {
+  mesh(new THREE.CylinderGeometry(0.04, 0.05, 1.6, 12), toy('#3d4a6b', { m: 0.5 }), X(x) + 0.4, 0.8, Z(6) + 0.1);
+  mesh(rbox(0.3, 0.1, 0.16, 0.04), toy('#3d4a6b', { m: 0.5 }), X(x) + 0.28, 1.62, Z(6) + 0.1);
+  mesh(new THREE.SphereGeometry(0.07, 12, 10), toy('#fff6c8', { e: 0xffe9a0, ei: 1.2 }), X(x) + 0.2, 1.54, Z(6) + 0.1);
+}
+
+// ---------- goal: home door with a floating house ----------
+const goalX = X(0), goalZ = Z(2);
+mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.03, 40), toy('#ffd34d', { e: 0xffb020, ei: 0.6 }), goalX, SW_H + 0.05, goalZ);
+const house = new THREE.Group(); house.position.set(goalX + 0.15, SW_H + 1.2, goalZ + 0.2); house.scale.setScalar(1.4); scene.add(house);
+mesh(rbox(0.36, 0.28, 0.3, 0.05), toy('#fff4dd', { cc: 0.8 }), 0, 0, 0, house);
+const roofM = mesh(new THREE.ConeGeometry(0.3, 0.24, 4), toy('#ff5a4a', { cc: 0.8 }), 0, 0.25, 0, house); roofM.rotation.y = Math.PI / 4;
+mesh(rbox(0.1, 0.16, 0.02, 0.02), toy('#c46a2e'), 0, -0.05, 0.16, house);
+anims.push(t => { house.position.y = SW_H + 1.2 + Math.sin(t * 2.2) * 0.06; house.rotation.y = Math.sin(t * 0.9) * 0.4; });
+
+// ---------- props ----------
+function scooter(x, y, col) {
+  const g = new THREE.Group(); g.position.set(X(x), SW_H + 0.02, Z(y)); g.rotation.y = (hash(x, y) - 0.5) * 0.3; g.scale.setScalar(1.3); scene.add(g);
+  const body = toy(col, { cc: 0.9, r: 0.25 });
+  mesh(rbox(0.28, 0.2, 0.62, 0.09), body, 0, 0.2, 0, g);
+  mesh(rbox(0.24, 0.32, 0.12, 0.06), body, 0, 0.32, 0.27, g);           // front apron
+  mesh(rbox(0.22, 0.08, 0.3, 0.04), toy('#33303d', { cc: 0.5 }), 0, 0.34, -0.08, g); // seat
+  mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.36, 8), toy('#33303d'), 0, 0.5, 0.3, g).rotation.z = Math.PI / 2;
+  mesh(new THREE.SphereGeometry(0.04, 10, 8), toy('#fff6c8', { e: 0xfff0b0, ei: 0.5 }), 0, 0.42, 0.34, g);
+  for (const zz of [-0.22, 0.24]) mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.07, 16), toy('#25232c', { cc: 0.2 }), 0, 0.09, zz, g).rotation.z = Math.PI / 2;
+}
+const scooterCols = ['#6f7c99', '#8f7fb5', '#6f9c8c', '#a7826f', '#7486ad', '#8a91a3', '#8a79a3', '#6d8aa8'];
+SCENE.fixed.forEach((o, i) => scooter(o.x, o.y, scooterCols[i % scooterCols.length]));
+
+function marker(x, y, baseY) { // floating "you can push this" chevron + ground ring
+  const ring = mesh(new THREE.TorusGeometry(0.36, 0.025, 8, 40), toy('#ffffff', { e: 0xffffff, ei: 0.6, t: 0.85 }), X(x), baseY + 0.02, Z(y)); ring.rotation.x = Math.PI / 2; ring.castShadow = false;
+  const chip = new THREE.Group(); chip.position.set(X(x), baseY + 1.05, Z(y)); scene.add(chip);
+  const shape = new THREE.Shape(); shape.moveTo(-0.12, 0.05); shape.lineTo(0, -0.07); shape.lineTo(0.12, 0.05); shape.lineTo(0.12, 0.1); shape.lineTo(0, -0.02); shape.lineTo(-0.12, 0.1); shape.closePath();
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: 0.05, bevelEnabled: true, bevelSize: 0.015, bevelThickness: 0.015, bevelSegments: 2 });
+  mesh(geo, toy('#ffffff', { cc: 1 }), 0, 0, 0, chip); chip.children[0].castShadow = false;
+  const ph = hash(x, y) * 6;
+  anims.push(t => { chip.position.y = baseY + 1.0 + Math.sin(t * 3 + ph) * 0.07; chip.rotation.y = t * 1.6 + ph; ring.scale.setScalar(1 + Math.sin(t * 3 + ph) * 0.06); ring.material.opacity = 0.55 + Math.sin(t * 3 + ph) * 0.25; });
+}
+function shopSign(x, y) {
+  const g = new THREE.Group(); g.position.set(X(x), SW_H, Z(y)); g.rotation.y = -0.25; scene.add(g);
+  const face = toy('#ffffff', { map: textTex('特價', { w: 256, h: 300, bg: '#fffaf0', fg: '#e11d48', size: 110, radius: 30 }), cc: 0.8 });
+  for (const s of [-1, 1]) { const b = mesh(rbox(0.5, 0.62, 0.05, 0.04), s > 0 ? face : toy('#ffd8a8'), 0, 0.36, s * 0.1, g); b.rotation.x = s * -0.18; }
+  mesh(rbox(0.54, 0.12, 0.26, 0.04), toy('#e11d48', { cc: 0.7 }), 0, 0.7, 0, g);
+  marker(x, y, SW_H);
+}
+function bin(x, y) {
+  const g = new THREE.Group(); g.position.set(X(x), SW_H, Z(y)); scene.add(g);
+  mesh(new THREE.CylinderGeometry(0.2, 0.17, 0.5, 28), toy('#22b38f', { cc: 0.8, r: 0.3 }), 0, 0.25, 0, g);
+  mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.07, 28), toy('#127a63', { cc: 0.8 }), 0, 0.52, 0, g);
+  mesh(new THREE.TorusGeometry(0.2, 0.018, 8, 28), toy('#ffffff', { cc: 0.5 }), 0, 0.3, 0, g).rotation.x = Math.PI / 2;
+  marker(x, y, SW_H);
+}
+function stroller(x, y) {
+  const g = new THREE.Group(); g.position.set(X(x), 0.02, Z(y)); g.rotation.y = Math.PI / 2 - 0.15; g.scale.setScalar(1.25); scene.add(g);
+  mesh(rbox(0.36, 0.24, 0.56, 0.11), toy('#ff7fb2', { cc: 1, r: 0.25 }), 0, 0.36, 0, g);
+  const hood = mesh(new THREE.SphereGeometry(0.22, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), toy('#5db2ff', { cc: 1, side: THREE.DoubleSide }), 0, 0.46, -0.1, g); hood.rotation.x = -0.6;
+  const baby = mesh(new THREE.SphereGeometry(0.09, 20, 16), toy('#ffe0c8', { cc: 0.3 }), 0, 0.55, 0.06, g);
+  for (const [xx, zz] of [[-0.17, -0.2], [0.17, -0.2], [-0.17, 0.2], [0.17, 0.2]]) mesh(new THREE.TorusGeometry(0.075, 0.03, 10, 20), toy('#2c2a38'), xx, 0.1, zz, g).rotation.y = Math.PI / 2;
+  mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.4, 8), toy('#4a4458', { m: 0.4 }), 0, 0.6, 0.38, g).rotation.x = 0.5;
+  mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.3, 10), toy('#4a4458', { m: 0.4 }), 0, 0.77, 0.47, g).rotation.z = Math.PI / 2;
+  marker(x, y, 0.02);
+  anims.push(t => { g.position.y = 0.02 + Math.abs(Math.sin(t * 5)) * 0.015; baby.position.y = 0.55 + Math.sin(t * 2.5) * 0.015; });
+}
+function car(x, y, dir, col) {
+  const g = new THREE.Group(); g.position.set(X(x), 0.02, Z(y)); g.rotation.y = dir === 'right' ? 0 : Math.PI; scene.add(g);
+  mesh(rbox(0.92, 0.3, 0.6, 0.12), toy(col, { cc: 1, r: 0.2 }), 0, 0.24, 0, g);
+  mesh(rbox(0.52, 0.26, 0.52, 0.1), toy(col, { cc: 1, r: 0.2 }), -0.06, 0.5, 0, g);
+  mesh(rbox(0.54, 0.18, 0.54, 0.07), glass, -0.06, 0.52, 0, g);
+  for (const [xx, zz] of [[-0.28, -0.3], [0.28, -0.3], [-0.28, 0.3], [0.28, 0.3]]) mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.1, 18), toy('#25232c', { cc: 0.2 }), xx, 0.12, zz, g).rotation.x = Math.PI / 2;
+  for (const zz of [-0.18, 0.18]) { mesh(new THREE.SphereGeometry(0.05, 12, 10), toy('#fffbe0', { e: 0xfff2b0, ei: 1.5 }), 0.46, 0.28, zz, g); mesh(new THREE.SphereGeometry(0.04, 12, 10), toy('#ff3b3b', { e: 0xff2020, ei: 0.8 }), -0.46, 0.28, zz, g); }
+  anims.push(t => { g.position.y = 0.02 + Math.sin(t * 22 + x) * 0.006; });
+  return g;
+}
+const carCols = ['#ff5f7e', '#4fb6ff', '#ffc53d', '#9b7bff'];
+SCENE.cars.forEach((c, i) => car(c.x, c.y, c.dir, carCols[c.id % carCols.length]));
+for (const o of SCENE.push) { if (o.k === 'stroller') stroller(o.x, o.y); else if (o.k === 'sign') shopSign(o.x, o.y); else if (o.k === 'bin') bin(o.x, o.y); }
+
+// player: chibi parent
+const player = new THREE.Group(); player.position.set(X(SCENE.player.x) + 0.05, 0.02, Z(SCENE.player.y)); player.rotation.y = -Math.PI / 2 + 1.0; scene.add(player);
+const pBody = mesh(new THREE.CapsuleGeometry(0.16, 0.2, 8, 20), toy('#3d7cff', { cc: 0.8, r: 0.35 }), 0, 0.32, 0, player);
+mesh(rbox(0.22, 0.24, 0.12, 0.05), toy('#ffb020', { cc: 0.7 }), 0, 0.36, -0.15, player); // backpack
+const head = new THREE.Group(); head.position.set(0, 0.72, 0); player.add(head);
+mesh(new THREE.SphereGeometry(0.22, 32, 24), toy('#ffd9bd', { cc: 0.3, r: 0.5 }), 0, 0, 0, head);
+const hair = mesh(new THREE.SphereGeometry(0.235, 32, 24, 0, Math.PI * 2, 0, Math.PI * 0.42), toy('#3a2a3f', { cc: 0.6 }), 0, 0.03, -0.05, head); hair.rotation.x = -0.5;
+for (const s of [-1, 1]) {
+  mesh(new THREE.SphereGeometry(0.035, 12, 10), toy('#2a1f30', { cc: 1 }), s * 0.08, -0.01, 0.2, head);
+  mesh(new THREE.SphereGeometry(0.03, 10, 8), toy('#ff8a9a', { cc: 0 }), s * 0.13, -0.07, 0.17, head).scale.set(1, 0.6, 0.4);
+}
+anims.push(t => { const b = Math.sin(t * 4); pBody.scale.set(1 + b * 0.02, 1 - b * 0.02, 1 + b * 0.02); head.position.y = 0.72 - b * 0.012; head.rotation.z = Math.sin(t * 1.7) * 0.06; });
+
+// danger tiles: glowing pads + number tags
+const DCOL = { 1: 0xff3b3b, 2: 0xff8a2a, 3: 0xffcc33 };
+for (const d of SCENE.danger) {
+  const pad = mesh(rbox(0.86, 0.03, 0.86, 0.12, 3), new THREE.MeshBasicMaterial({ color: DCOL[d.k], transparent: true, opacity: 0.85, toneMapped: false }), X(d.x), 0.03, Z(d.y));
+  const edge = mesh(new THREE.TorusGeometry(0.4, 0.02, 6, 4), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 }), X(d.x), 0.05, Z(d.y)); edge.rotation.set(Math.PI / 2, 0, Math.PI / 4); edge.scale.set(1.25, 1.25, 1); edge.castShadow = false;
+  pad.castShadow = false;
+  const tag = new THREE.Sprite(new THREE.SpriteMaterial({ map: textTex(String(d.k), { w: 128, h: 128, bg: '#ffffff', fg: '#' + DCOL[d.k].toString(16).padStart(6, '0'), font: 'Fredoka', size: 92, radius: 64 }), depthTest: true }));
+  tag.scale.setScalar(0.32); tag.position.set(X(d.x) - 0.28, 0.2, Z(d.y) - 0.28); scene.add(tag);
+  const ph = d.k * 0.9;
+  anims.push(t => { const k = Math.sin(t * 5 - ph) * 0.5 + 0.5; pad.material.opacity = (d.k === 1 ? 0.72 : 0.6) + k * 0.25; edge.material.opacity = 0.4 + k * 0.6; });
+}
+
+// ---------- camera fit + render loop ----------
+const target = new THREE.Vector3(0, 0.35, 0.75);
+let baseDist = 15;
+function resize() {
+  const w = screen.clientWidth, h = screen.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h;
+  // phones: frame the action around the player instead of the whole street
+  const portrait = camera.aspect < 1;
+  target.set(portrait ? X(SCENE.player.x) - 0.6 : 0, 0.35, portrait ? 1.0 : 0.75);
+  const needW = portrait ? 7.5 : W - 1.2, vfov = THREE.MathUtils.degToRad(camera.fov);
+  const hfov = 2 * Math.atan(Math.tan(vfov / 2) * camera.aspect);
+  baseDist = Math.max((needW / 2) / Math.tan(hfov / 2), (portrait ? 4 : H + 1.2) / 2 / Math.tan(vfov / 2)) * 0.98;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize); resize();
+
+const bubble = document.getElementById('bubble');
+const tmp = new THREE.Vector3();
+const clock = new THREE.Clock();
+function frame() {
+  const t = reduce ? 1.2 : clock.getElapsedTime();
+  const sway = reduce ? 0 : Math.sin(t * 0.25) * 0.05;
+  const el = THREE.MathUtils.degToRad(52);
+  camera.position.set(target.x + Math.sin(sway) * baseDist * Math.cos(el), target.y + baseDist * Math.sin(el), target.z + Math.cos(sway) * baseDist * Math.cos(el));
+  camera.lookAt(target);
+  anims.forEach(f => f(t));
+  renderer.render(scene, camera);
+  tmp.set(X(SCENE.player.x), 1.15, Z(SCENE.player.y)).project(camera);
+  bubble.style.left = ((tmp.x + 1) / 2 * screen.clientWidth + 70) + 'px';
+  bubble.style.top = ((1 - tmp.y) / 2 * screen.clientHeight) + 'px';
+  bubble.hidden = false;
+  if (!reduce) requestAnimationFrame(frame);
+}
+document.getElementById('loading').remove();
+frame();
+</script>
