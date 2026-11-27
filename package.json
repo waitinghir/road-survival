@@ -1,0 +1,17 @@
+{
+  "name": "road-survival",
+  "private": true,
+  "description": "馬路求生記：台灣街頭推箱子・回合制閃車益智遊戲",
+  "scripts": {
+    "build": "node game/build.js",
+    "check": "node game/tools/audit.js && node game/tools/timeline_audit.js",
+    "play-all": "node game/tools/playall.js",
+    "art:scene": "node art/export-scene.js",
+    "art:build": "node art/build.js",
+    "art:render": "node art/build.js && node art/render.js"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0",
+    "three": "^0.160.0"
+  }
+}

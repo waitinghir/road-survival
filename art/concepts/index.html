@@ -1,0 +1,145 @@
+<title>馬路求生記 美術概念</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+/* Layout: an art-director's presentation. Dark gallery wall so every concept's colors read true; each concept = hero shot + board (palette, keywords, why it sells, risk). */
+:root {
+  --wall: #17151c; --wall-2: #201d27; --ink: #f4f1f7; --soft: #a9a3b5; --line: #34303d; --accent: #ffcf4a;
+  --f-head: "Noto Serif TC", "Songti TC", serif; --f-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--wall); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.65; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 56px; }
+header { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+.eyebrow { font-size: 12px; letter-spacing: .3em; color: var(--accent); font-weight: 700; }
+h1 { font-family: var(--f-head); font-weight: 900; font-size: clamp(32px, 5vw, 52px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.lede { color: var(--soft); margin: 0; max-width: 64ch; }
+.index { display: flex; flex-wrap: wrap; gap: 8px; }
+.index a { color: var(--ink); text-decoration: none; font-size: 14px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; }
+.index a:hover, .index a:focus-visible { border-color: var(--accent); outline: none; }
+
+.concept { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 20px; }
+.head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.num { font-family: var(--f-head); font-size: 15px; color: var(--accent); letter-spacing: .2em; }
+.concept h2 { font-family: var(--f-head); font-weight: 900; font-size: clamp(26px, 3.6vw, 38px); margin: 0; }
+.concept .en { color: var(--soft); font-size: 14px; letter-spacing: .14em; }
+.hero { margin: 0; border-radius: 18px; overflow: hidden; background: var(--wall-2); box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+.hero img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
+.pitch { font-size: 18px; margin: 0; max-width: 62ch; }
+.board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 860px) { .board { grid-template-columns: minmax(0, 1fr); } }
+.cell { background: var(--wall-2); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; min-width: 0; }
+.cell h3 { margin: 0 0 10px; font-size: 12px; letter-spacing: .22em; color: var(--soft); font-weight: 700; }
+.cell ul { margin: 0; padding-left: 1.1em; } .cell li { margin-bottom: 4px; }
+.swatches { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
+.swatches span { aspect-ratio: 1; border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font-size: 13px; padding: 2px 10px; border-radius: 999px; background: rgba(255,255,255,.07); }
+.fit { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--soft); margin-top: 10px; }
+.meter { display: inline-flex; gap: 3px; } .meter i { width: 14px; height: 6px; border-radius: 3px; background: var(--line); } .meter i.on { background: var(--accent); }
+
+.verdict { background: var(--wall-2); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.verdict h2 { font-family: var(--f-head); font-size: 28px; margin: 0; }
+.verdict p { margin: 0; max-width: 70ch; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { color: var(--soft); font-weight: 500; font-size: 13px; }
+.note { color: var(--soft); font-size: 13px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">ART DIRECTION · 五個方向</span>
+    <h1>馬路求生記 美術概念提案</h1>
+    <p class="lede">五張都是第 3 關同一個瞬間的完整遊戲畫面：嬰兒車剛被推下馬路，左邊有車開過來，商標和介面都照該方向的設計放進去。比較的重點是氣氛、品牌感，以及「能不能推、哪裡危險」在每種風格裡還看不看得清楚。</p>
+    <nav class="index" aria-label="概念索引">
+      <a href="#candy">01 糖果街角</a><a href="#neon">02 夜市霓虹</a><a href="#clay">03 黏土定格</a><a href="#comic">04 漫畫爆炸</a><a href="#dawn">05 晨光散步</a>
+    </nav>
+  </header>
+
+  <section class="concept" id="candy">
+    <div class="head"><span class="num">01</span><h2>糖果街角</h2><span class="en">CANDY CORNER</span></div>
+    <figure class="hero"><img src="candy.jpg" alt="糖果街角：粉紅騎樓磁磚、亮面糖果色街屋、果凍按鈕的白天街景" width="1600" height="1000"></figure>
+    <p class="pitch">把台灣街頭做成一盒亮晶晶的糖果玩具。最廣泛、最安全的手遊商業路線，一眼就是「休閒益智遊戲」。</p>
+    <div class="board">
+      <div class="cell"><h3>色票</h3><div class="swatches"><span style="background:#ff4f7b"></span><span style="background:#ffc21d"></span><span style="background:#34b5ff"></span><span style="background:#1fc4a5"></span><span style="background:#7c5cff"></span><span style="background:#ffc2d6"></span></div>
+        <div class="tags"><span>亮面塑膠</span><span>果凍按鈕</span><span>粉紅磁磚</span><span>正午陽光</span></div></div>
+      <div class="cell"><h3>為什麼會想付錢</h3><ul><li>手機商店裡最被認可的視覺語言，點進來的門檻最低</li><li>容易延伸成造型、配色皮膚等付費內容</li></ul></div>
+      <div class="cell"><h3>風險</h3><ul><li>跟大量休閒遊戲撞臉，品牌記憶點要靠台灣元素撐</li><li>可愛到太甜，社會議題的諷刺感會被沖淡</li></ul>
+        <div class="fit">好不好認規則 <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div></div>
+    </div>
+  </section>
+
+  <section class="concept" id="neon">
+    <div class="head"><span class="num">02</span><h2>夜市霓虹</h2><span class="en">NIGHT MARKET NEON</span></div>
+    <figure class="hero"><img src="neon.jpg" alt="夜市霓虹：夜晚街景、霓虹招牌、燈籠串和發光的危險格" width="1600" height="1000"></figure>
+    <p class="pitch">台灣最有辨識度的夜景：直立霓虹招牌、燈籠串、濕亮的柏油。危險預告本身就是霓虹燈，規則和氣氛合而為一。</p>
+    <div class="board">
+      <div class="cell"><h3>色票</h3><div class="swatches"><span style="background:#ff1f8e"></span><span style="background:#2de2ff"></span><span style="background:#ffd23a"></span><span style="background:#9b6bff"></span><span style="background:#1d0b3a"></span><span style="background:#ff2e6e"></span></div>
+        <div class="tags"><span>霓虹燈管</span><span>燈籠串</span><span>暖色店面光</span><span>泛光</span></div></div>
+      <div class="cell"><h3>為什麼會想付錢</h3><ul><li>截圖最好看，最適合當商店頁第一張圖和社群宣傳</li><li>「台灣夜市」對國外玩家是強烈又正面的異國印象</li></ul></div>
+      <div class="cell"><h3>風險</h3><ul><li>暗色畫面在戶外陽光下難看清楚</li><li>泛光要壓住，否則危險格和違停機車會糊在一起</li><li>手機效能負擔最重</li></ul>
+        <div class="fit">好不好認規則 <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div></div>
+    </div>
+  </section>
+
+  <section class="concept" id="clay">
+    <div class="head"><span class="num">03</span><h2>黏土定格</h2><span class="en">STOP-MOTION CLAY</span></div>
+    <figure class="hero"><img src="clay.jpg" alt="黏土定格：霧面黏土質感、移軸景深的迷你街景，紙膠帶風格的標題" width="1600" height="1000"></figure>
+    <p class="pitch">最接近你一開始說的「黏土、積木」。霧面黏土加上移軸景深，像在看一座手捏的迷你台灣街角，溫暖又帶點幽默。</p>
+    <div class="board">
+      <div class="cell"><h3>色票</h3><div class="swatches"><span style="background:#e9826a"></span><span style="background:#f0c060"></span><span style="background:#7fb7c9"></span><span style="background:#4c7f5a"></span><span style="background:#f2c9a2"></span><span style="background:#3b2a1d"></span></div>
+        <div class="tags"><span>霧面黏土</span><span>移軸景深</span><span>紙膠帶標籤</span><span>午後暖光</span></div></div>
+      <div class="cell"><h3>為什麼會想付錢</h3><ul><li>手作感少見，有「精品獨立遊戲」的質感，願意付買斷價的玩家吃這套</li><li>題材是社會議題，溫暖的黏土讓批評變得不刺眼</li></ul></div>
+      <div class="cell"><h3>風險</h3><ul><li>要做到真的像定格動畫，動作要刻意一格一格跳，需要專門調</li><li>景深會讓遠處的格子變模糊，要確保可玩範圍都在焦點內</li></ul>
+        <div class="fit">好不好認規則 <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div></div>
+    </div>
+  </section>
+
+  <section class="concept" id="comic">
+    <div class="head"><span class="num">04</span><h2>漫畫爆炸</h2><span class="en">COMIC INK</span></div>
+    <figure class="hero"><img src="comic.jpg" alt="漫畫爆炸：卡通描邊、高飽和原色、網點天空和「叭！！」狀聲詞的街景" width="1600" height="1000"></figure>
+    <p class="pitch">卡通描邊加高飽和原色，喇叭聲就畫成「叭！！」的爆炸狀聲詞。把交通亂象演成一齣鬧劇，最有喜感、最好做成迷因。</p>
+    <div class="board">
+      <div class="cell"><h3>色票</h3><div class="swatches"><span style="background:#ffe11a"></span><span style="background:#ff2e3f"></span><span style="background:#1ea7ff"></span><span style="background:#ff7ad1"></span><span style="background:#2fd38a"></span><span style="background:#111111"></span></div>
+        <div class="tags"><span>粗描邊</span><span>三階陰影</span><span>網點</span><span>狀聲詞</span><span>斜體按鈕</span></div></div>
+      <div class="cell"><h3>為什麼會想付錢</h3><ul><li>每一次被撞、被開單都能變成好笑的畫面，玩家會想截圖分享</li><li>個性最強，最不容易被說是抄誰</li></ul></div>
+      <div class="cell"><h3>風險</h3><ul><li>畫面資訊很滿，關卡一複雜就會吵</li><li>鏡頭壓低、角度斜，比較有戲劇張力，但看不到整條街，要配合可以拉遠的鏡頭</li></ul>
+        <div class="fit">好不好認規則 <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div></div>
+    </div>
+  </section>
+
+  <section class="concept" id="dawn">
+    <div class="head"><span class="num">05</span><h2>晨光散步</h2><span class="en">PASTEL DAWN</span></div>
+    <figure class="hero"><img src="dawn.jpg" alt="晨光散步：粉紫色清晨、低多邊形街景、明體直排標語" width="1600" height="1000"></figure>
+    <p class="pitch">清晨粉紫色的低多邊形城市，明體直排標語，安靜、有詩意。把「找一條能走的路」包裝成療癒的思考遊戲。</p>
+    <div class="board">
+      <div class="cell"><h3>色票</h3><div class="swatches"><span style="background:#f7b7c9"></span><span style="background:#fcd3c1"></span><span style="background:#c9d8f5"></span><span style="background:#8f93b8"></span><span style="background:#f0607e"></span><span style="background:#5a4870"></span></div>
+        <div class="tags"><span>低多邊形</span><span>長影子</span><span>淡霧</span><span>明體</span><span>直排</span></div></div>
+      <div class="cell"><h3>為什麼會想付錢</h3><ul><li>「療癒、有質感」的獨立遊戲路線，適合買斷制和 Steam、Switch</li><li>可以加入輕柔配樂和城市小故事，延伸成有敘事的作品</li></ul></div>
+      <div class="cell"><h3>風險</h3><ul><li>顏色太柔，危險感和刺激感最弱，跟「閃車」的玩法有點衝突</li><li>違停機車和其他物件的對比低，要加強輪廓</li></ul>
+        <div class="fit">好不好認規則 <span class="meter"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div></div>
+    </div>
+  </section>
+
+  <section class="verdict">
+    <h2>我的建議</h2>
+    <p>主方向選 <strong>03 黏土定格</strong>：它最接近你最初的想像，質感最獨特，也最能讓社會議題「好笑但不刺耳」。再把 <strong>02 夜市霓虹</strong> 做成夜間關卡或付費主題，商店頁第一張圖就用它。</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>方向</th><th>第一眼吸引力</th><th>好不好認規則</th><th>台灣辨識度</th><th>跟議題搭不搭</th><th>製作成本</th></tr></thead>
+      <tbody>
+        <tr><td>01 糖果街角</td><td>高</td><td>高</td><td>中</td><td>中</td><td>低</td></tr>
+        <tr><td>02 夜市霓虹</td><td>最高</td><td>中</td><td>最高</td><td>中</td><td>高</td></tr>
+        <tr><td>03 黏土定格</td><td>高</td><td>高</td><td>高</td><td>最高</td><td>中</td></tr>
+        <tr><td>04 漫畫爆炸</td><td>高</td><td>最高</td><td>中</td><td>高</td><td>中</td></tr>
+        <tr><td>05 晨光散步</td><td>中</td><td>低</td><td>中</td><td>中</td><td>低</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">五張都是即時 3D 渲染的靜態截圖，場景、角色和道具都是我用程式建模的。角色目前還是簡單幾何造型，選定方向後，角色設計是最需要再投入的地方。</p>
+  </section>
+</div>
